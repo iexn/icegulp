@@ -1,0 +1,23 @@
+{
+  "name": "icegulp",
+  "version": "2.3.2",
+  "description": "构建静态开发模型",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "author": "iexn",
+  "email": "iexn@qq.com",
+  "repository": "iexn/minigulp",
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-include-extend": "^1.2.5",
+    "gulp-preprocess": "^4.0.2",
+    "gulp-virtual-stream": "^1.0.1",
+    "js-yaml": "^4.1.0",
+    "minimist": "^1.2.5",
+    "wpage": "^2.0.9"
+  }
+}
