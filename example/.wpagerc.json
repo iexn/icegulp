@@ -1,0 +1,9 @@
+{
+    "dir": "./site",
+    "ignore": [
+        "*/*"
+    ],
+    "sourceContentType": {
+        ".svg":"image/svg+xml"
+    }
+}

@@ -1,11 +1,11 @@
 const fs = require('fs');
 const { join, extname, resolve, relative, basename } = require('path');
 const gulp = require('gulp');
-const wpage = require('wpage');
 const preprocess = require('gulp-preprocess');
 const include = require('gulp-include-extend');
 const { load } = require('js-yaml');
 const gulpStream = require('gulp-virtual-stream');
+const Log = require('./log');
 
 const baseUrl = process.cwd();
 
@@ -16,24 +16,7 @@ function pathResolve(url, ...urls) {
 /**
  * 获取环境配置
  */
-function envConfig() {
-    // 获取执行参数
-    const argv = Object.assign({
-        env: 'development'
-    }, require('minimist')(process.argv.slice(2)));
-    
-    if (argv.env != 'production') {
-        argv.env = 'development';
-    }
-    
-    if (!argv.dir) {
-        if (argv.env == 'production') {
-            argv.dir = 'dist';
-        } else {
-            argv.dir = 'site';
-        }
-    }
-
+function envConfig(argv) {
     // 获取项目配置参数
     const config = load(fs.readFileSync(pathResolve('.env.' + argv.env))) || {};
     
@@ -48,10 +31,10 @@ function envConfig() {
 }
 
 class Model {
-    constructor(appName) {
+    constructor(appName, argv) {
         this.name = appName;
         this.tasks = {};
-        this.config = envConfig();
+        this.config = envConfig(argv);
     }
 
     _getAppPath() {
@@ -131,9 +114,7 @@ class Model {
                     return SC.stream;
                 });
             })
-            .catch(e => {
-                throw new Error(e);
-            });
+            .catch(e => Log.error('entryTemplateContentError: ', e.message));
     }
     
     _installTask(taskType, page) {
@@ -163,58 +144,8 @@ class Model {
                     .pipe(preprocess({
                         context: this
                     }));
-            });
-    }
-    
-    /**
-     * 创建文件监听
-     */
-    _buildWatcher() {
-        // 相关文件转录
-        const aliasType = Object.assign({
-            'scss': 'css'
-        }, this.config.fileType);
-
-        const compile = path => {
-            console.log(new Date, '文件编译中');
-    
-            let filePath = relative('./src', path).replace(/\\/g, '/');
-    
-            // 查询是否在页面中
-            const reg = new RegExp(`^app/${this.app}/([a-zA-Z_-]+)/`);
-    
-            const fileMatch = filePath.match(reg);
-    
-            let page = undefined;
-    
-            if (fileMatch && !(this.config.ignore && this.config.ignore.pages.includes(fileMatch[1]))) {
-                page = fileMatch[1];
-            }
-    
-            // 查询需刷新文件类型
-            let type = extname(filePath).slice(1);
-
-            if (Object.prototype.hasOwnProperty.call(aliasType, type)) {
-                type = aliasType[type];
-            }
-            
-            this.tasks[type] && this.tasks[type](page).then((() => {
-                console.log(new Date, '编译完成');
-            }));
-        }
-    
-        const watcher = gulp.watch([
-            './src/**/*.*'
-        ]);
-    
-        watcher.on('change', compile);
-        watcher.on('add', compile);
-        watcher.on('uinlink', compile);
-    }
-    
-    watcher() {
-        wpage.start();
-        this._buildWatcher();
+            })
+            .catch(e => Log.error('runCommonTaskError', e.message));
     }
     
     build() {
@@ -224,7 +155,8 @@ class Model {
     register(name, task) {
         this.tasks[name] = page => {
             return this._installTask(name, page)
-                .then(stream => task(stream));
+                .then(stream => task(stream))
+                .catch(e => Log.error('runRegisterTaskError', e.message));
         };
     }
     
@@ -236,8 +168,8 @@ class Model {
                 const taskName = this.name + ':' + name;
                 const task = this.tasks[name];
     
-                gulp.task(taskName, function (done) {
-                    task(stream => done(stream));
+                gulp.task(taskName, done => {
+                    task(this.config.argv.page).then(() => done());
                 });
     
                 tasks.push(taskName);
