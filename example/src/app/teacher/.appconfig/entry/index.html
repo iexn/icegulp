@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <title><!-- @echo config.title --></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <script>
+        // = include @/common/flexible.js
+    </script>
+    <script src="/shijiwxy/weixin/js/config.js?version=2021081001"></script>
+    <script src="<!-- @echo config.publicPath -->/lib/require/require.min.js" data-main="list"></script>
+    <script>
+        // = include @app/.require/config.js
+    </script>
 </head>
-<body>
-    <!-- = include @page/index.html -->
-</body>
+
+<body id="app" ontouchstart="" data-weui-theme="light"></body>
+
 </html>

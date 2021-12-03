@@ -11,8 +11,6 @@ const Log = require('./register/log');
  */
 function buildWatcher(modelsMap) {
     const compile = path => {
-        Log.print('文件编译中');
-
         let filePath = relative('./src', path).replace(/\\/g, '/');
 
         // 查询是否在页面中
@@ -24,13 +22,17 @@ function buildWatcher(modelsMap) {
         let app = undefined;
         let mode = undefined;
 
-        if (fileMatch) {
-            app = fileMatch[1];
-            mode = modelsMap[app];
-            
-            if (!(mode.config.ignore && mode.config.ignore.pages.includes(fileMatch[2]))) {
-                page = fileMatch[2];
-            }
+        if (!fileMatch) {
+            return;
+        }
+
+        Log.print('文件编译中');
+        
+        app = fileMatch[1];
+        mode = modelsMap[app];
+        
+        if (!(mode.config.ignore && mode.config.ignore.pages.includes(fileMatch[2]))) {
+            page = fileMatch[2];
         }
 
         // 相关文件转录

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>课后服务 - 微校云</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <script>
+        (function flexible(window, document) { var docEl = document.documentElement; var dpr = window.devicePixelRatio || 1; function setBodyFontSize() { if (document.body) { document.body.style.fontSize = 6 * dpr + 'px'; } else { document.addEventListener('DOMContentLoaded', setBodyFontSize); } }setBodyFontSize(); function setRemUnit() { let clientWidth = docEl.clientWidth; if (clientWidth > 600) { clientWidth = 600; } var rem = clientWidth / 37.5 * 2; docEl.style.fontSize = rem + 'px'; }setRemUnit(); window.addEventListener('resize', setRemUnit); window.addEventListener('pageshow', function(e) { if (e.persisted) { setRemUnit(); } }); if (dpr >= 2) { var fakeBody = document.createElement('body'); var testElement = document.createElement('div'); testElement.style.border = '.5px solid transparent'; fakeBody.appendChild(testElement); docEl.appendChild(fakeBody); if (testElement.offsetHeight === 1) { docEl.classList.add('hairlines'); }docEl.removeChild(fakeBody); } })(window, document);
+        
+    </script>
+    <script src="/shijiwxy/weixin/js/config.js?version=2021081001"></script>
+    <script src="/static/lib/require/require.min.js" data-main="list"></script>
+    <script>
+        const originUrl = 'http://proxy.test/' || '/';
+        
+        const STATIC_PATH = '/static/';
+        const LIB_PATH = STATIC_PATH + 'lib/';
+        
+        require.config({
+            urlArgs: 'v=2021120202',
+            baseUrl: './',
+            paths  : {
+                jquery         : LIB_PATH + 'jquery.min',
+                weui           : LIB_PATH + 'weui/weui.custom.min',
+                mobilebone     : LIB_PATH + 'mobilebone/mobilebone',
+                swiper         : LIB_PATH + 'swiper_6.1.2/swiper.min',
+                tablet         : LIB_PATH + 'Tablet-1.0.min',
+                SparkMD5       : LIB_PATH + 'spark-md5.min',
+                migrate        : LIB_PATH + 'jquery-migrate.min',
+                template       : LIB_PATH + 'template-web',
+                createComponent: originUrl + 'shijiwxy/weixin/common/createComponent/index',
+                wx             : originUrl + 'shijiwxy/static/jweixin-1.6.0',
+                common         : '../common/common.min',
+                list          : './assets/list.min',
+            },
+            map : { '*': { 'css': '../../static/lib/require/css.min.js' }},
+            shim: {
+                weui           : { deps: ['css!' + LIB_PATH + '/weui/weui.min'] },
+                mobilebone     : { deps: ['css!' + LIB_PATH + '/mobilebone/mobilebone'] },
+                swiper         : { deps: ['css!' + LIB_PATH + '/swiper_6.1.2/swiper.min'] },
+                common         : { deps: ['css!../common/common.min', 'template'] },
+                tablet         : { deps: ['jquery'] },
+                migrate        : { deps: ['jquery'] },
+                createComponent: { deps: ['jquery', 'css!' + originUrl + 'shijiwxy/weixin/common/createComponent/style'] },
+                list          : { deps: ['css!./assets/list.min'] },
+            },
+            waitSeconds: 0
+        });
+        
+    </script>
+</head>
+
+<body id="app" ontouchstart="" data-weui-theme="light"></body>
+
+</html>

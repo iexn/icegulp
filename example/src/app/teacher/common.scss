@@ -1,0 +1,216 @@
+@function xrem($rem) {
+    @return calc($rem / 2);
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-2 {
+    flex: 2;
+}
+
+.flex-3 {
+    flex: 3;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.page {
+    z-index: 4;
+}
+
+.container {
+    padding: xrem(2rem) 16px;
+}
+
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
+.header {
+    position: relative;
+    display: flex;
+    line-height: xrem(5rem);
+    justify-content: space-between;
+    height: xrem(5rem);
+    overflow: hidden;
+    background-color: #5d5def;
+    color: #fff;
+    font-size: 14px;
+    z-index: 3;
+
+    & > div {
+        position: relative;
+        width: 25%;
+        text-align: center;
+        line-height: xrem(4.6rem);
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: xrem(3.6rem);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background-color: #fff;
+            border-radius: 2px;
+            transition: width linear 0.1s;
+        }
+
+        &.active {
+            font-weight: 800;
+            font-size: 16px;
+
+            &::after {
+                width: xrem(2.8rem);
+            }
+        }
+    }
+}
+
+.app {
+    z-index: 2;
+    background-color: #FFF;
+
+    .swiper-slide {
+        position: relative;
+        height: auto;
+    }
+    .swiper-container {
+        height: 100%;
+        // margin-top: xrem(4rem);
+    }
+}
+
+.color-success {
+    color: #128600
+}
+
+.color-danger {
+    color: #d21313
+}
+
+.color-forbidden {
+    color: #898989
+}
+
+.weui-flex {
+    align-items: baseline;
+    margin-left: -4px;
+    margin-right: -4px;
+
+    & > div {
+        padding: 0 4px;
+    }
+}
+
+.app {
+    .weui-cells {
+        font-size: 15px;
+    }
+
+    .weui-form__control-area {
+        margin: 0
+    }
+
+    .weui-cells__group_form .weui-cell:before, .weui-cells__group_form .weui-cells:before {
+        left: 12px;
+        right: 12px;
+    }
+
+    .weui-cells__group_form .weui-cell_select .weui-select,
+    .weui-cells__group_form .weui-cell_switch,
+    .weui-cells__group_form .weui-cell {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .weui-cells__group_form .weui-cell_select .weui-cell__bd:after {
+        right: 16px;
+    }
+
+    .weui-cells::before {
+        content: none
+    }
+
+    .weui-switch-cp__input:checked+.weui-switch-cp__box, .weui-switch-cp__input[aria-checked=true]+.weui-switch-cp__box, .weui-switch:checked {
+        background-color: #5d5def;
+        border-color: #5d5def;
+    }
+
+    .weui-cell__ft {
+        min-width: 16px;
+        min-height: 21px;
+        max-width: 60%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-break: break-all;
+    }
+
+    .weui-btn {
+        border-radius: 20px;
+        width: 100%;
+    }
+
+}
+
+#app {
+    .weui-cells_radio .weui-check:checked+.weui-icon-checked, .weui-cells_radio .weui-check[aria-checked=true]+.weui-icon-checked {
+        color: #5d5def
+    }
+}
+
+.weui-half-screen-dialog {
+    -webkit-transition: -webkit-transform .3s;
+    transition: -webkit-transform .3s;
+    transition: transform .3s;
+    transition: transform .3s,-webkit-transform .3s;
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+}
+
+.weui-half-screen-dialog_show {
+    transform: translateY(0);
+}
+
+.weui-mask {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+}
+
+.js_dialog {
+    position: relative;
+    z-index: 3;
+}
+
+.commit-uploader-readonly.weui-gallery,
+.commit-uploader.weui-gallery {
+    background-color: rgba(0,0,0,0.8);
+}
+.commit-uploader-readonly {
+    .weui-gallery__opr {
+        display: none!important;
+    }
+}
+
+.api-list {
+    overflow: hidden;
+}
+.list-container {
+    height: 100%;
+    overflow: auto;
+    // touch-action: none
+}

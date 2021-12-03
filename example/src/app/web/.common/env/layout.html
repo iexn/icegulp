@@ -1,0 +1,37 @@
+<!-- = extend @app/.common/env/entry.html -->
+
+<!-- ^ block:main -->
+
+<!-- = include @app/.common/env/lib.html -->
+<!-- = block:package -->
+
+<style>
+    /* = include @page/index.scss */
+</style>
+
+<div id="APP_FRAME">
+    <!--三级菜单-->
+    <ul class="categoryTxt"></ul>
+
+    <!-- 面包屑-->
+    <div class="subCrumbs">
+        <span>当前位置：</span>
+        <span>首页</span>
+        <span>/</span>
+        <span><!-- @echo config.title --></span>
+        <span>/</span>
+        <!-- = block:nav -->
+    </div>
+    <!-- 面包屑 end-->
+
+    <!--数据展示区-->
+    <div class="content-wrap">
+        <!-- = block:content -->
+    </div>
+</div>
+
+<script>
+    // = include @page/index.js
+</script>
+
+<!-- $ block:main -->

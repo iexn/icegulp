@@ -48,6 +48,9 @@ app.register('html', function (stream) {
                 return text;
             }
         }))
+        .on('error', function (e) {
+            console.error(e.message);
+        });
       
     return app.destTask(stream, app.name);
 });

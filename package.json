@@ -1,6 +1,6 @@
 {
   "name": "icegulp",
-  "version": "2.3.5",
+  "version": "2.3.8",
   "description": "构建静态开发模型",
   "main": "index.js",
   "scripts": {

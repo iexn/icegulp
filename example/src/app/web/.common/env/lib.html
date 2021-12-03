@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="<!-- @echo config.publicPath -->/lib/layui/2.6.8/css/layui.css">
+<script src="<!-- @echo config.publicPath -->/lib/layui/2.6.8/layui.js"></script>
+<script>
+layui.config({dir: '<!-- @echo config.publicPath -->/lib/layui/2.6.8/'});
+</script>
+
+<!-- @if config.debug -->
+<script>
+// = include @/common/plugins/devinfo.js
+</script>
+<!-- @endif -->
