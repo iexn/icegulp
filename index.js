@@ -49,8 +49,10 @@ function buildWatcher(modelsMap) {
         
         mode.tasks[type] 
             && mode.tasks[type](page)
-                .then((() => {
-                    Log.print('编译完成');
+                .then((stream => {
+                    stream.on('finish', () => {
+                        Log.print('编译完成');
+                    });
                 }))
                 .catch(e => Log.error('watcherCompileError', e.message));
     }
