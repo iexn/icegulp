@@ -210,7 +210,7 @@ class Model {
                         },
                         includeTrim(includePath, filePath) {
                             if (/\[page\]/.test(includePath + '')) {
-                                const name = basename(filePath);
+                                const name = relative(baseUrl, filePath);
                                 const ext = extname(name);
                                 const page = name.slice(0, name.length - ext.length);
                                 includePath = join(includePath).replace(/\[page\]/g, page);
