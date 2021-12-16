@@ -1,11 +1,9 @@
 {
   "name": "icegulp",
-  "version": "2.3.11",
+  "version": "2.4.2",
   "description": "构建静态开发模型",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "bin": {},
   "keywords": [],
   "license": "MIT",
@@ -13,7 +11,7 @@
     "name": "iexn",
     "email": "iexn@qq.com"
   },
-  "repository": "iexn/minigulp",
+  "repository": "iexn/icegulp",
   "dependencies": {
     "gulp": "^4.0.2",
     "gulp-include-extend": "^1.2.5",

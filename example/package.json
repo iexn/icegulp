@@ -21,7 +21,7 @@
     "gulp-sass": "^5.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.8",
-    "icegulp": "^2.3.x",
+    "icegulp": "^2.4.x",
     "js-yaml": "^4.1.0",
     "sass": "^1.44.0"
   }

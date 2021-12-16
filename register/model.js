@@ -73,6 +73,7 @@ function envConfig(argv, optionConfig) {
     let config = load(fs.readFileSync(pathResolve('.env.' + argv.env))) || {};
 
     config = assignDeep(config, optionConfig);
+
     config.NODE_ENV = argv.env;
     config.argv     = argv;
 
@@ -99,35 +100,60 @@ class Model {
     _getPages(name) {
         const appPath = this._getAppPath();
         const dirs = fs.readdirSync(appPath);
-        const pages = [];
-    
-        /** 
-         * 获取应用所有页面（以app下文件夹为项目，每个子文件夹为独立的页面；特殊排除common以及. _开头的文件夹）
-         */
-        dirs.map(dirName => {
-            let fileStat = fs.statSync(join(appPath, dirName));
-            if (!fileStat.isDirectory()) {
-                return;
-            }
-        
-            if (/^(\.|\_)/.test(dirName)) {
-                return;
-            }
-            
-            /**
-             * 增加环境配置 自定义配置排除文件名
+
+        const getPages = (dirs, suffix = '') => {
+            const pages = [];
+
+            /** 
+             * 获取应用所有页面（以app下文件夹为项目，每个子文件夹为独立的页面；特殊排除common以及. _开头的文件夹）
              */
-            if (this.config.ignore && this.config.ignore.pages.includes(dirName)) {
-                return;
-            }
+            dirs.map(dirName => {
+                dirName = suffix + dirName;
+
+                let fileStat = fs.statSync(join(appPath, dirName));
+                if (!fileStat.isDirectory()) {
+                    return;
+                }
+            
+                if (/^(\.|\_)/.test(dirName)) {
+                    return;
+                }
+                
+                /**
+                 * 增加环境配置 自定义配置排除文件名
+                 */
+                if (this.config.ignore && this.config.ignore.pages.includes(dirName)) {
+                    return;
+                }
     
-            if (name !== undefined && name != dirName) {
-                return;
-            }
-        
-            pages.push(dirName);
-        });
+                let pagePath = join(appPath, dirName);
+                
+                /**
+                 * 如果包含 .appdir.json 文件 视为分组页
+                 * 页面地址 = dirName + ... + pageName
+                 */
+                if (fs.existsSync(join(pagePath, '.appdir.json'))) {
+                    let pageStat = fs.statSync(join(pagePath, '.appdir.json'));
+
+                    if (pageStat.isFile()) {
+                        let ds = fs.readdirSync(pagePath);
+
+                        pages.push(...getPages(ds, dirName + '/'));
+                    }
+                } else {
+                    if (name !== undefined && name != dirName) {
+                        return;
+                    }
+
+                    pages.push(dirName);
+                }
+            });
+
+            return pages;
+        }
     
+        const pages = getPages(dirs);
+
         return Promise.resolve(pages);
     }
     
@@ -166,7 +192,7 @@ class Model {
                     return SC.stream;
                 });
             })
-            .catch(e => Log.error('entryTemplateContentError: ', e.message));
+            .catch(e => Log.error('entryTemplateContentError:', e.message));
     }
     
     _installTask(taskType, page) {
@@ -197,7 +223,7 @@ class Model {
                         context: this
                     }));
             })
-            .catch(e => Log.error('runCommonTaskError', e.message));
+            .catch(e => Log.error('runCommonTaskError:', e.message));
     }
     
     build() {
@@ -208,7 +234,7 @@ class Model {
         this.tasks[name] = page => {
             return this._installTask(name, page)
                 .then(stream => task(stream))
-                .catch(e => Log.error('runRegisterTaskError', e.message));
+                .catch(e => Log.error('runRegisterTaskError:', e.message));
         };
     }
     

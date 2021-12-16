@@ -14,7 +14,7 @@ function buildWatcher(modelsMap) {
         let filePath = relative('./src', path).replace(/\\/g, '/');
 
         // 查询是否在页面中
-        const reg = new RegExp(`^app/([a-zA-Z_-]+)/([a-zA-Z_-]+)/`);
+        const reg = /^app\/([a-zA-Z_-]+)\/([a-zA-Z_-]+(\/[a-zA-Z_-]+)*)\//;
 
         const fileMatch = filePath.match(reg);
 
@@ -54,7 +54,7 @@ function buildWatcher(modelsMap) {
                         Log.print('编译完成');
                     });
                 }))
-                .catch(e => Log.error('watcherCompileError', e.message));
+                .catch(e => Log.error('watcherCompileError:', e.message));
     }
 
     const debounce = function (func, wait, immediate) {
