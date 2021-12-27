@@ -265,9 +265,15 @@ class Model {
      * 输出流到指定位置
      */
     destTask(stream, src = '') {
+        let buildSrc = String(this.config.buildSrc);
+
+        if (buildSrc.indexOf('/') == 0) {
+            buildSrc = buildSrc.substring(1);
+        }
+
         if (Array.isArray(this.config.dest)) {
             this.config.dest.map(rootSrc => {
-                stream = stream.pipe(gulp.dest(pathResolve(rootSrc, this.config.buildSrc, src)));
+                stream = stream.pipe(gulp.dest(pathResolve(rootSrc, buildSrc, src)));
             });
         }
     
