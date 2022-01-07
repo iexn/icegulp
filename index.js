@@ -91,6 +91,23 @@ function buildWatcher(modelsMap) {
     watcher.on('uinlink', compileDebounce);
 }
 
+const customTaskNames = [];
+
+/**
+ * 注册执行完成自定义事件（与文件流无关）
+ */
+exports.registerTask = function (name, task) {
+    customTaskNames.push(name);
+
+    gulp.task(name, function (done) {
+        if (!task) {
+            done();
+        }
+
+        return task && task(done);
+    });
+}
+
 exports.start = function () {
     // 整体打包用任务名称
     // 固定打包名称为   [应用名]:build
@@ -121,7 +138,7 @@ exports.start = function () {
     }
 
     // 注册整体打包任务
-    gulp.task('build', gulp.series(gulp.parallel(...bins)));
+    gulp.task('build', gulp.series(gulp.parallel(...bins), ...customTaskNames));
 
     const task = {
         watcher() {
