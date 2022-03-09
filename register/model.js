@@ -101,6 +101,33 @@ class Model {
         const appPath = this._getAppPath();
         const dirs = fs.readdirSync(appPath);
 
+        // 处理name变为可寻址的路径
+        let filePath = join(appPath, name);
+        
+        while (name != '' || filePath.length > appPath.length) {
+            let appconfig = fs.statSync(join(filePath, '../.appconfig'), {
+                throwIfNoEntry: false
+            });
+
+            if (appconfig && appconfig.isDirectory()) {
+                break;
+            }
+
+            let appdir = fs.statSync(join(filePath, '../.appdir.json'), {
+                throwIfNoEntry: false
+            });
+
+            if (appdir && appdir.isFile()) {
+                break;
+            }
+
+            name = join(name, '..');
+            filePath = join(appPath, name);
+        }
+
+        // 兼容windows路径符号
+        name = name.replace(/\\/g, '/');
+
         const getPages = (dirs, suffix = '') => {
             const pages = [];
 
