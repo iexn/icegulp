@@ -108,7 +108,7 @@ exports.registerTask = function (name, task) {
     });
 }
 
-exports.start = function () {
+exports.start = function (port = 8080) {
     // 整体打包用任务名称
     // 固定打包名称为   [应用名]:build
     const bins = [];
@@ -143,7 +143,7 @@ exports.start = function () {
     const task = {
         watcher() {
             buildWatcher(modelsMap);
-            wpage.start();
+            wpage.start(port);
         }
     };
 
