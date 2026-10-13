@@ -233,6 +233,14 @@ class Model {
                     }))
                     .pipe(include({
                         includePaths: {
+                            ...(function(includes) {
+                                let pis = {};
+                                for (let key in includes) {
+                                    pis[key] = pathResolve(includes[key]);
+                                }
+                                return pis;
+                            })(this.config.includes || {}),
+                            ''     : pathResolve(''),
                             '@'    : pathResolve('src'),
                             '@app' : pathResolve('src/app/' + this.name),
                             '@page': pathResolve('src/app/' + this.name + '/[page]')

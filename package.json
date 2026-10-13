@@ -1,17 +1,19 @@
 {
   "name": "icegulp",
-  "version": "2.5.3",
+  "version": "2.6.1",
   "description": "构建静态开发模型",
   "main": "index.js",
   "scripts": {},
-  "bin": {},
   "keywords": [],
   "license": "MIT",
   "author": {
     "name": "iexn",
     "email": "iexn@qq.com"
   },
-  "repository": "iexn/icegulp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iexn/icegulp.git"
+  },
   "dependencies": {
     "gulp": "^4.0.2",
     "gulp-include-extend": "^1.2.5",
